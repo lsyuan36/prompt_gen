@@ -51,20 +51,150 @@ const lengthDescriptions = {
 };
 
 // 目標受眾標籤對照
-const audienceLabels = {
+const ageLabels = {
+    children: '兒童（6-12歲）',
+    teen: '青少年（13-17歲）',
     young: '年輕族群（18-30歲）',
     middle: '中壯年（31-50歲）',
-    senior: '銀髮族（50歲以上）',
-    student: '學生（大學/研究所）',
-    professional: '上班族（一般職員）',
-    manager: '主管/經理（中高階管理）',
-    entrepreneur: '創業者（新創/老闆）',
-    homemaker: '家庭主婦/夫（家庭照顧者）',
-    parent: '父母（有子女家長）',
-    tech: '科技愛好者（早期採用者）',
-    b2b: 'B2B 採購（企業決策者）',
-    custom: '' // 自訂受眾
+    senior: '銀髮族（51歲以上）',
+    all: '全年齡層',
+    customAge: '' // 自訂年齡
 };
+
+const occupationLabels = {
+    student: '學生',
+    professional: '上班族',
+    manager: '主管/經理',
+    entrepreneur: '創業者/老闆',
+    freelancer: '自由工作者',
+    homemaker: '家庭主婦/夫',
+    parent: '父母（有子女）',
+    retiree: '退休人士',
+    tech: '科技從業者',
+    creative: '創意工作者',
+    b2b: 'B2B 企業決策者',
+    general: '一般大眾',
+    customOccupation: '' // 自訂職業
+};
+
+// 行銷情境
+const scenarioLabels = {
+    launch: '新品上市 / 功能上線',
+    campaign: '季度 / 節慶活動推廣',
+    reengage: '會員召回 / 沉睡客戶喚醒',
+    promotion: '限時促銷 / 折扣活動',
+    branding: '品牌形象與信任建立',
+    education: '教育型 / 知識分享內容',
+    event: '活動邀請與報名推廣',
+    conversion: '試用導入 / 轉換催化',
+    customScenario: '客製化情境'
+};
+
+const scenarioDescriptions = {
+    launch: '適合用於新品上市、重大功能釋出，強調首波亮點與搶先體驗。',
+    campaign: '聚焦於檔期、節慶或季度活動，需清楚導入活動主題與時間。',
+    reengage: '鎖定沉睡客戶或舊會員，提醒既有價值並給予回流誘因。',
+    promotion: '用於限時折扣、加碼優惠或快閃行銷，強調緊迫感與 CTA。',
+    branding: '強調品牌理念、價值觀與信任累積，適合長期溝通。',
+    education: '以教學、知識、白皮書等內容為主，突顯專業洞察。',
+    event: '推廣線上／線下活動與報名資訊，需清楚時間地點與名額限制。',
+    conversion: '協助體驗轉購、試用轉付費或導購流程，著重行動指引。'
+};
+
+const scenarioGuidelines = {
+    launch: [
+        '凸顯新品解決的核心痛點與差異化功能',
+        '明確標出上市日期、預購或搶先體驗方式',
+        '加入客戶信任指標（研發背景、合作品牌等）'
+    ],
+    campaign: [
+        '呼應檔期主題與活動主視覺 Tone',
+        '清楚告知活動期間與參與門檻',
+        '建議提供至少一個贈品或加碼機制'
+    ],
+    reengage: [
+        '採用關懷式語氣，提醒過往互動紀錄或成就',
+        '提供回流專屬優惠或限量福利',
+        '降低行動門檻，如一鍵登入或專屬客服'
+    ],
+    promotion: [
+        '在首句放入優惠幅度或倒數資訊',
+        '搭配稀缺性描述（名額、時間、庫存）',
+        '重複 CTA 以加深行動意識'
+    ],
+    branding: [
+        '連結品牌使命、社會影響或核心價值',
+        '建議引入客戶故事或數據證明信任度',
+        '語氣維持一致並呼應品牌識別詞'
+    ],
+    education: [
+        '建立場景或問題，引出知識含金量',
+        '拆解重點為 3-4 個章節，易於閱讀',
+        '結尾附上延伸資源或下載行動'
+    ],
+    event: [
+        '第一段交代活動時間、地點與亮點',
+        '清楚描述受眾參與後可獲得的收益',
+        '提醒名額限制與報名截止日期'
+    ],
+    conversion: [
+        '聚焦產品如何引導下一步行動（試用、預約等）',
+        '加入社會證明或過往成功案例',
+        '提供最簡單的 CTA 流程與必要連結'
+    ]
+};
+
+// UI helpers
+function renderChipGroup(container, labels, emptyText) {
+    if (!container) return;
+    container.innerHTML = '';
+    if (!labels.length) {
+        container.textContent = emptyText;
+        container.classList.add('text-gray-400');
+        return;
+    }
+    container.classList.remove('text-gray-400');
+    labels.forEach(label => {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = label;
+        container.appendChild(chip);
+    });
+}
+
+function getSelectedAgeLabels() {
+    const selected = Array.from(document.querySelectorAll('input[name="audienceAge"]:checked')).map(cb => cb.value);
+    if (selected.includes('all')) {
+        return ['全年齡層'];
+    }
+    const labels = selected
+        .filter(value => value !== 'customAge')
+        .map(value => ageLabels[value])
+        .filter(Boolean);
+    if (selected.includes('customAge')) {
+        const customAgeValue = document.getElementById('customAgeInput').value.trim();
+        labels.push(customAgeValue || '自訂年齡');
+    }
+    return labels;
+}
+
+function getSelectedOccupationLabels() {
+    const selected = Array.from(document.querySelectorAll('input[name="audienceOccupation"]:checked')).map(cb => cb.value);
+    const labels = selected
+        .filter(value => value !== 'customOccupation')
+        .map(value => occupationLabels[value])
+        .filter(Boolean);
+    if (selected.includes('customOccupation')) {
+        const customOccupationValue = document.getElementById('customOccupationInput').value.trim();
+        labels.push(customOccupationValue || '自訂身份');
+    }
+    return labels;
+}
+
+function updateAudienceSummary() {
+    renderChipGroup(document.getElementById('ageChipGroup'), getSelectedAgeLabels(), '尚未選擇');
+    renderChipGroup(document.getElementById('occupationChipGroup'), getSelectedOccupationLabels(), '尚未選擇');
+}
 
 // 表單提交處理
 document.getElementById('promptForm').addEventListener('submit', function(e) {
@@ -73,23 +203,36 @@ document.getElementById('promptForm').addEventListener('submit', function(e) {
     // 獲取表單數據
     const lengthValue = document.querySelector('input[name="length"]:checked').value;
     const goalValue = document.querySelector('input[name="goal"]:checked').value;
+    const scenarioValue = document.querySelector('input[name="scenario"]:checked').value;
 
-    // 獲取選中的受眾（複選）
-    const selectedAudiences = Array.from(document.querySelectorAll('input[name="audience"]:checked'))
+    // 獲取選中的年齡層（複選）
+    const selectedAges = Array.from(document.querySelectorAll('input[name="audienceAge"]:checked'))
         .map(cb => cb.value);
 
-    // 檢查是否至少選擇一個受眾
-    if (selectedAudiences.length === 0) {
-        alert('請至少選擇一個目標受眾');
+    // 獲取選中的職業（複選）
+    const selectedOccupations = Array.from(document.querySelectorAll('input[name="audienceOccupation"]:checked'))
+        .map(cb => cb.value);
+
+    // 檢查是否至少選擇一個年齡層和一個職業
+    if (selectedAges.length === 0 || selectedOccupations.length === 0) {
+        alert('請至少選擇一個年齡層和一個職業/身份');
         return;
     }
 
     const formData = {
         goal: goalValue,
         customGoal: goalValue === 'other' ? document.getElementById('customGoal').value.trim() : '',
+        scenario: scenarioValue,
+        customScenario: scenarioValue === 'customScenario' ? document.getElementById('customScenario').value.trim() : '',
         product: document.getElementById('product').value.trim(),
-        audiences: selectedAudiences,
-        customAudience: selectedAudiences.includes('custom') ? document.getElementById('customAudience').value.trim() : '',
+        painPoints: document.getElementById('painPoints').value.trim(),
+        valueProps: document.getElementById('valueProps').value.trim(),
+        offerDetails: document.getElementById('offerDetails').value.trim(),
+        desiredAction: document.getElementById('desiredAction').value.trim(),
+        audienceAges: selectedAges,
+        customAgeInput: selectedAges.includes('customAge') ? document.getElementById('customAgeInput').value.trim() : '',
+        audienceOccupations: selectedOccupations,
+        customOccupationInput: selectedOccupations.includes('customOccupation') ? document.getElementById('customOccupationInput').value.trim() : '',
         tone: document.querySelector('input[name="tone"]:checked').value,
         length: lengthValue,
         customLength: lengthValue === 'custom' ? document.getElementById('customLength').value.trim() : '',
@@ -119,28 +262,88 @@ function generatePrompt(data) {
         prompt += `請為我創作${goalLabels[data.goal]}。\n\n`;
     }
 
-    // 3. 產品/服務資訊
+    // 3. 行銷情境
+    prompt += '【行銷情境】\n';
+    let scenarioText = scenarioLabels[data.scenario] || '';
+    if (data.scenario === 'customScenario' && data.customScenario) {
+        scenarioText = data.customScenario;
+    }
+    prompt += `${scenarioText}\n`;
+    if (scenarioDescriptions[data.scenario]) {
+        prompt += `${scenarioDescriptions[data.scenario]}\n`;
+    }
+    prompt += '\n';
+
+    if (scenarioGuidelines[data.scenario]) {
+        prompt += '【情境提示】\n';
+        scenarioGuidelines[data.scenario].forEach(item => {
+            prompt += `- ${item}\n`;
+        });
+        prompt += '\n';
+    }
+
+    // 4. 產品/服務資訊
     prompt += '【產品/服務資訊】\n';
     prompt += `${data.product}\n\n`;
 
-    // 4. 目標受眾
-    prompt += '【目標受眾】\n';
-    const audienceList = data.audiences
-        .filter(a => a !== 'custom')
-        .map(a => audienceLabels[a])
-        .filter(Boolean);
-
-    if (data.customAudience) {
-        audienceList.push(data.customAudience);
+    // 5. 需求重點
+    const hasStructuredInfo = data.painPoints || data.valueProps || data.offerDetails || data.desiredAction;
+    if (hasStructuredInfo) {
+        prompt += '【需求重點】\n';
+        if (data.painPoints) {
+            prompt += `- 受眾痛點：${data.painPoints}\n`;
+        }
+        if (data.valueProps) {
+            prompt += `- 核心賣點：${data.valueProps}\n`;
+        }
+        if (data.offerDetails) {
+            prompt += `- 方案 / 優惠：${data.offerDetails}\n`;
+        }
+        if (data.desiredAction) {
+            prompt += `- 期望 CTA：${data.desiredAction}\n`;
+        }
+        prompt += '\n';
     }
 
-    prompt += audienceList.join('、') + '\n\n';
+    // 6. 目標受眾
+    prompt += '【目標受眾】\n';
 
-    // 5. 風格要求
+    // 組合年齡層
+    const ageList = data.audienceAges
+        .filter(age => age !== 'customAge')
+        .map(age => ageLabels[age])
+        .filter(Boolean);
+
+    // 加入自訂年齡
+    if (data.customAgeInput) {
+        ageList.push(data.customAgeInput);
+    }
+
+    // 組合職業
+    const occupationList = data.audienceOccupations
+        .filter(occ => occ !== 'customOccupation')
+        .map(occ => occupationLabels[occ])
+        .filter(Boolean);
+
+    // 加入自訂職業
+    if (data.customOccupationInput) {
+        occupationList.push(data.customOccupationInput);
+    }
+
+    // 如果選擇了「全年齡層」，則不需要列出其他年齡
+    const ageText = data.audienceAges.includes('all')
+        ? '全年齡層'
+        : ageList.join('、');
+
+    const occupationText = occupationList.join('、');
+
+    prompt += `${ageText}的${occupationText}\n\n`;
+
+    // 7. 風格要求
     prompt += '【風格與語調】\n';
     prompt += `請使用${toneDescriptions[data.tone]}。\n\n`;
 
-    // 6. 內容長度
+    // 8. 內容長度
     prompt += '【內容長度】\n';
     if (data.length === 'custom' && data.customLength) {
         prompt += `${data.customLength}。\n\n`;
@@ -148,7 +351,7 @@ function generatePrompt(data) {
         prompt += `${lengthDescriptions[data.length]}。\n\n`;
     }
 
-    // 7. 根據不同行銷目標添加特定要求
+    // 9. 根據不同行銷目標添加特定要求
     prompt += '【具體要求】\n';
 
     switch(data.goal) {
@@ -254,13 +457,13 @@ function generatePrompt(data) {
             prompt += '- 包含明確的行動號召\n';
     }
 
-    // 8. 其他特殊要求
+    // 9. 其他特殊要求
     if (data.additional) {
         prompt += '\n【其他特殊要求】\n';
         prompt += `${data.additional}\n`;
     }
 
-    // 9. 輸出格式
+    // 10. 輸出格式
     prompt += '\n【輸出格式】\n';
     prompt += '請直接提供內容，並在最後簡要說明創作理念和預期效果。';
 
@@ -366,20 +569,119 @@ document.querySelectorAll('input[name="goal"]').forEach(radio => {
     });
 });
 
-// 目標受眾自訂輸入顯示
-document.querySelectorAll('input[name="audience"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        const customAudienceContainer = document.getElementById('customAudienceContainer');
-        const customCheckbox = document.querySelector('input[name="audience"][value="custom"]');
+// 行銷情境描述顯示與自訂輸入
+document.querySelectorAll('input[name="scenario"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const descriptionContainer = document.getElementById('scenarioDescription');
+        const descriptionText = descriptionContainer.querySelector('p');
+        const customScenarioContainer = document.getElementById('customScenarioContainer');
 
-        if (customCheckbox.checked) {
-            customAudienceContainer.classList.remove('hidden');
-            document.getElementById('customAudience').focus();
+        if (scenarioDescriptions[this.value]) {
+            descriptionText.textContent = scenarioDescriptions[this.value];
+            descriptionContainer.classList.remove('hidden');
         } else {
-            customAudienceContainer.classList.add('hidden');
+            descriptionContainer.classList.add('hidden');
+        }
+
+        if (this.value === 'customScenario') {
+            customScenarioContainer.classList.remove('hidden');
+            document.getElementById('customScenario').focus();
+        } else {
+            customScenarioContainer.classList.add('hidden');
         }
     });
 });
+
+// 年齡層「其他」選項控制
+document.getElementById('customAgeCheckbox').addEventListener('change', function() {
+    const customAgeContainer = document.getElementById('customAgeContainer');
+    if (this.checked) {
+        customAgeContainer.classList.remove('hidden');
+        document.getElementById('customAgeInput').focus();
+    } else {
+        customAgeContainer.classList.add('hidden');
+        document.getElementById('customAgeInput').value = '';
+    }
+    updateAudienceSummary();
+});
+
+// 職業「其他」選項控制
+document.getElementById('customOccupationCheckbox').addEventListener('change', function() {
+    const customOccupationContainer = document.getElementById('customOccupationContainer');
+    if (this.checked) {
+        customOccupationContainer.classList.remove('hidden');
+        document.getElementById('customOccupationInput').focus();
+    } else {
+        customOccupationContainer.classList.add('hidden');
+        document.getElementById('customOccupationInput').value = '';
+    }
+    updateAudienceSummary();
+});
+
+// 需求模板摺疊控制
+(function setupRequirementToggle() {
+    const toggleBtn = document.getElementById('toggleRequirementBtn');
+    const fields = document.getElementById('requirementFields');
+    const label = document.getElementById('requirementToggleLabel');
+    const icon = document.getElementById('requirementToggleIcon');
+
+    if (!toggleBtn || !fields) return;
+
+    toggleBtn.setAttribute('aria-controls', 'requirementFields');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+
+    toggleBtn.addEventListener('click', function() {
+        const isHidden = fields.classList.toggle('hidden');
+        const expanded = !isHidden;
+        if (label) {
+            label.textContent = expanded ? '收合區塊' : '展開填寫';
+        }
+        if (icon) {
+            icon.style.transform = expanded ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+        toggleBtn.setAttribute('aria-expanded', expanded.toString());
+    });
+})();
+
+// 受眾選擇 Chips 更新
+document.querySelectorAll('input[name="audienceAge"]').forEach(cb => {
+    cb.addEventListener('change', updateAudienceSummary);
+});
+document.querySelectorAll('input[name="audienceOccupation"]').forEach(cb => {
+    cb.addEventListener('change', updateAudienceSummary);
+});
+
+document.getElementById('customAgeInput').addEventListener('input', updateAudienceSummary);
+document.getElementById('customOccupationInput').addEventListener('input', updateAudienceSummary);
+
+// 清空按鈕
+const clearAgeBtn = document.getElementById('clearAgeBtn');
+if (clearAgeBtn) {
+    clearAgeBtn.addEventListener('click', function() {
+        document.querySelectorAll('input[name="audienceAge"]').forEach(cb => {
+            cb.checked = false;
+        });
+        document.getElementById('customAgeCheckbox').checked = false;
+        document.getElementById('customAgeContainer').classList.add('hidden');
+        document.getElementById('customAgeInput').value = '';
+        updateAudienceSummary();
+    });
+}
+
+const clearOccupationBtn = document.getElementById('clearOccupationBtn');
+if (clearOccupationBtn) {
+    clearOccupationBtn.addEventListener('click', function() {
+        document.querySelectorAll('input[name="audienceOccupation"]').forEach(cb => {
+            cb.checked = false;
+        });
+        document.getElementById('customOccupationCheckbox').checked = false;
+        document.getElementById('customOccupationContainer').classList.add('hidden');
+        document.getElementById('customOccupationInput').value = '';
+        updateAudienceSummary();
+    });
+}
+
+updateAudienceSummary();
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {

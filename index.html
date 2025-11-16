@@ -23,8 +23,39 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        .header-shell {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-bottom: 1px solid #e0e7ff;
+        }
+        .header-card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .header-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.2rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(79, 70, 229, 0.12), rgba(96, 165, 250, 0.12));
+            color: #4338ca;
+        }
+        .hero-meta {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
         .card-hover {
             transition: all 0.3s ease;
@@ -45,13 +76,104 @@
         input[name="length"][value="custom"]:checked ~ #customLengthInput {
             display: block;
         }
+        /* 防止滾動框內滾動時帶動整個頁面 */
+        .scroll-container {
+            overscroll-behavior: contain;
+        }
+        .form-section {
+            border: 1px solid #e5e7eb;
+            border-left-width: 4px;
+            border-left-color: #3b82f6;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.04);
+            margin-bottom: 1.5rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .section-action {
+            font-size: 0.85rem;
+            color: #2563eb;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .section-action svg {
+            width: 1rem;
+            height: 1rem;
+            transition: transform 0.2s ease;
+        }
+        .scenario-option .peer:checked + div {
+            border-color: #4338ca;
+            background-color: rgba(67, 56, 202, 0.08);
+            color: #312e81;
+        }
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .chip {
+            padding: 0.2rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            background-color: #eef2ff;
+            color: #3730a3;
+            border: 1px solid rgba(79, 70, 229, 0.2);
+        }
+        .summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .clear-btn {
+            font-size: 0.75rem;
+            color: #6b7280;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .clear-btn:hover {
+            color: #ef4444;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
-    <header class="gradient-bg text-white py-6 shadow-lg">
-        <div class="container mx-auto px-4">
-            <h1 class="text-3xl md:text-4xl font-bold text-center">行銷 Prompt 生成器</h1>
+    <header class="header-shell py-10">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="header-card text-center space-y-5">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">
+                    行銷 Prompt 生成器
+                </h1>
+                <div class="hero-meta justify-center text-base font-medium text-gray-700">
+                    <span class="gap-2">
+                        8 步驟快速輸入
+                    </span>
+                    <span class="gap-2">
+                        自訂情境與受眾
+                    </span>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -61,10 +183,14 @@
         <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
             <form id="promptForm">
                 <!-- 行銷目標 -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-3">
-                        <span class="text-red-500">*</span> 行銷目標
-                    </label>
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 1</p>
+                            <h2 class="section-title"><span class="text-red-500">*</span> 行銷目標</h2>
+                        </div>
+                        <span class="text-sm text-gray-500">先鎖定想要產出的素材類型</span>
+                    </div>
                     <div class="flex flex-wrap gap-2">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="content" class="peer sr-only" required>
@@ -156,134 +282,333 @@
                             id="customGoal"
                             name="customGoal"
                             class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="請描述您的行銷目標，例如：白皮書撰寫、簡報內容、活動文案等..."
+                            placeholder="請描述針對筆電行銷的目標，例如：新品上市簡報、開學檔廣告、企業採購提案等..."
+                        >
+                    </div>
+                </div>
+
+                <!-- 行銷情境 -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 2</p>
+                            <h2 class="section-title"><span class="text-red-500">*</span> 行銷情境</h2>
+                        </div>
+                        <span class="text-sm text-gray-500">選擇最貼近的 Campaign 情境</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="launch" class="peer sr-only" required>
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">新品上市</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="campaign" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">季度/節慶活動</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="reengage" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">會員召回</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="promotion" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">限時促銷</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="branding" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">品牌形象</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="education" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">教育/知識分享</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="event" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">活動邀請</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="conversion" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">試用/轉換</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer scenario-option">
+                            <input type="radio" name="scenario" value="customScenario" class="peer sr-only">
+                            <div class="border-2 border-indigo-200 rounded-lg px-4 py-2 text-center peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">其他情境</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="scenarioDescription" class="mt-3 p-3 bg-indigo-50 border border-indigo-200 rounded-lg hidden">
+                        <p class="text-sm text-indigo-700"></p>
+                    </div>
+                    <div id="customScenarioContainer" class="mt-3 hidden">
+                        <input
+                            type="text"
+                            id="customScenario"
+                            name="customScenario"
+                            class="w-full px-4 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+                            placeholder="請描述筆電行銷情境，例如：創作者體驗日、電競新品發佈會、B2B 企業採購簡報..."
                         >
                     </div>
                 </div>
 
                 <!-- 產品/服務描述 -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2" for="product">
-                        <span class="text-red-500">*</span> 產品/服務描述
-                    </label>
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 3</p>
+                            <h2 class="section-title"><span class="text-red-500">*</span> 產品/服務描述</h2>
+                        </div>
+                        <span class="text-sm text-gray-500">聚焦在差異化價值與解決方案</span>
+                    </div>
                     <textarea
                         id="product"
                         name="product"
                         rows="3"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="例如：一款幫助小型企業管理客戶關係的 SaaS 軟體，具有自動化跟進和數據分析功能..."
+                        placeholder="例如：最新 14 吋輕薄筆電，搭載第 14 代 Intel Core Ultra、OLED 3K 觸控螢幕、24 小時電力與軍規金屬機身..."
                         required
                     ></textarea>
                 </div>
 
-                <!-- 目標受眾 -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-3">
-                        <span class="text-red-500">*</span> 目標受眾 <span class="text-gray-400 font-normal text-sm">(可複選)</span>
-                    </label>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="young" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">年輕族群</div>
-                                <div class="text-xs text-gray-500 mt-1">18-30歲</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="middle" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">中壯年</div>
-                                <div class="text-xs text-gray-500 mt-1">31-50歲</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="senior" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">銀髮族</div>
-                                <div class="text-xs text-gray-500 mt-1">50歲以上</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="student" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">學生</div>
-                                <div class="text-xs text-gray-500 mt-1">大學/研究所</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="professional" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">上班族</div>
-                                <div class="text-xs text-gray-500 mt-1">一般職員</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="manager" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">主管/經理</div>
-                                <div class="text-xs text-gray-500 mt-1">中高階管理</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="entrepreneur" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">創業者</div>
-                                <div class="text-xs text-gray-500 mt-1">新創/老闆</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="homemaker" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">家庭主婦/夫</div>
-                                <div class="text-xs text-gray-500 mt-1">家庭照顧者</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="parent" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">父母</div>
-                                <div class="text-xs text-gray-500 mt-1">有子女家長</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="tech" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">科技愛好者</div>
-                                <div class="text-xs text-gray-500 mt-1">早期採用者</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="b2b" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">B2B 採購</div>
-                                <div class="text-xs text-gray-500 mt-1">企業決策者</div>
-                            </div>
-                        </label>
-                        <label class="card-hover cursor-pointer">
-                            <input type="checkbox" name="audience" value="custom" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
-                                <div class="font-medium text-sm">其他</div>
-                                <div class="text-xs text-gray-500 mt-1">自訂</div>
-                            </div>
-                        </label>
-                    </div>
-                    <!-- 自訂受眾輸入 -->
-                    <div id="customAudienceContainer" class="mt-3 hidden">
-                        <input
-                            type="text"
-                            id="customAudience"
-                            name="customAudience"
-                            class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="請描述您的目標受眾，例如：對健身有興趣的女性、喜歡旅遊的退休人士等..."
+                <!-- 需求描述模板 -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 4</p>
+                            <h2 class="section-title">需求描述模板</h2>
+                            <p class="text-sm text-gray-500 mt-1">填寫越完整，AI 越了解商業背景</p>
+                        </div>
+                        <button
+                            type="button"
+                            id="toggleRequirementBtn"
+                            class="section-action"
                         >
+                            <svg id="requirementToggleIcon" class="transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            <span id="requirementToggleLabel">展開填寫</span>
+                        </button>
+                    </div>
+                    <div id="requirementFields" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-2" for="painPoints">受眾主要痛點</label>
+                            <textarea
+                                id="painPoints"
+                                name="painPoints"
+                                rows="3"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="例如：通勤族找不到兼具效能與續航的筆電、設計師需高色準螢幕、企業 IT 對資安與維護痛點..."
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-2" for="valueProps">核心賣點 / 差異化</label>
+                            <textarea
+                                id="valueProps"
+                                name="valueProps"
+                                rows="3"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="例如：全台唯一內建 AI 協作晶片、雙風扇散熱不降頻、通過軍規跌落測試、含 3 年全球到府維修..."
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-2" for="offerDetails">主打方案 / 優惠</label>
+                            <textarea
+                                id="offerDetails"
+                                name="offerDetails"
+                                rows="3"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="例如：預購送 1TB SSD、開學檔 85 折、企業批量購買贈延長保固、電競版搭配滑鼠組合價..."
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-2" for="desiredAction">期望 CTA / 行動</label>
+                            <textarea
+                                id="desiredAction"
+                                name="desiredAction"
+                                rows="3"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="例如：預約門市試用、填表領取企業採購方案、加入社群看實測影片、直接下單指定電商..."
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 目標受眾 -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 5</p>
+                            <h2 class="section-title">
+                                <span class="text-red-500">*</span> 目標受眾 <span class="text-gray-400 font-normal text-sm">(可複選)</span>
+                            </h2>
+                        </div>
+                        <span class="text-sm text-gray-500">勾選主要年齡與身份，後方有摘要 Chips</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 年齡層 -->
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-3">年齡層</label>
+                            <div class="space-y-2 bg-gray-50 border border-gray-200 rounded-lg p-4 max-h-48 overflow-y-auto scroll-container">
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="children" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">兒童（6-12歲）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="teen" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">青少年（13-17歲）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="young" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">年輕族群（18-30歲）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="middle" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">中壯年（31-50歲）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="senior" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">銀髮族（51歲以上）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="all" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">全年齡層</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceAge" value="customAge" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary" id="customAgeCheckbox">
+                                    <span class="ml-3 text-sm text-gray-700">其他</span>
+                                </label>
+                            </div>
+                            <!-- 自訂年齡輸入 -->
+                            <div id="customAgeContainer" class="mt-3 hidden">
+                                <input
+                                    type="text"
+                                    id="customAgeInput"
+                                    name="customAgeInput"
+                                    class="w-full px-3 py-2 text-sm border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="請輸入年齡層，例如：25-35 歲遠距工作者、18-24 歲電競玩家等..."
+                                >
+                            </div>
+                            <div class="mt-4">
+                                <div class="summary-header">
+                                    <span class="text-xs font-semibold text-gray-500 tracking-wide uppercase">已選年齡</span>
+                                    <button type="button" id="clearAgeBtn" class="clear-btn">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                        清空
+                                    </button>
+                                </div>
+                                <div id="ageChipGroup" class="chip-group text-gray-400">尚未選擇</div>
+                            </div>
+                        </div>
+
+                        <!-- 職業/身份 -->
+                        <div>
+                            <label class="block text-gray-600 text-sm font-medium mb-3">職業/身份</label>
+                            <div class="space-y-2 bg-gray-50 border border-gray-200 rounded-lg p-4 max-h-48 overflow-y-auto scroll-container">
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="student" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">學生</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="professional" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">上班族</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="manager" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">主管/經理</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="entrepreneur" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">創業者/老闆</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="freelancer" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">自由工作者</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="homemaker" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">家庭主婦/夫</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="parent" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">父母（有子女）</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="retiree" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">退休人士</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="tech" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">科技從業者</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="creative" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">創意工作者</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="b2b" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">B2B 企業決策者</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="general" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                                    <span class="ml-3 text-sm text-gray-700">一般大眾</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer hover:bg-blue-50 p-2 rounded transition-colors">
+                                    <input type="checkbox" name="audienceOccupation" value="customOccupation" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary" id="customOccupationCheckbox">
+                                    <span class="ml-3 text-sm text-gray-700">其他</span>
+                                </label>
+                            </div>
+                            <!-- 自訂職業輸入 -->
+                            <div id="customOccupationContainer" class="mt-3 hidden">
+                                <input
+                                    type="text"
+                                    id="customOccupationInput"
+                                    name="customOccupationInput"
+                                    class="w-full px-3 py-2 text-sm border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="請輸入職業/身份，例如：影音剪輯師、遊戲實況主、企業採購主管等..."
+                                >
+                            </div>
+                            <div class="mt-4">
+                                <div class="summary-header">
+                                    <span class="text-xs font-semibold text-gray-500 tracking-wide uppercase">已選身份</span>
+                                    <button type="button" id="clearOccupationBtn" class="clear-btn">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                        清空
+                                    </button>
+                                </div>
+                                <div id="occupationChipGroup" class="chip-group text-gray-400">尚未選擇</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 語調風格 -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-3">
-                        語調風格
-                    </label>
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 6</p>
+                            <h2 class="section-title">語調風格</h2>
+                        </div>
+                        <span class="text-sm text-gray-500">先選擇主要語調，生成後再微調語氣即可</span>
+                    </div>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="tone" value="professional" class="peer sr-only" checked>
@@ -313,10 +638,14 @@
                 </div>
 
                 <!-- 內容長度 -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-3">
-                        內容長度
-                    </label>
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 7</p>
+                            <h2 class="section-title">內容長度</h2>
+                        </div>
+                        <span class="text-sm text-gray-500">依投放位置或需求調整字數</span>
+                    </div>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="length" value="short" class="peer sr-only" checked>
@@ -353,22 +682,26 @@
                             id="customLength"
                             name="customLength"
                             class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="例如：約 150 字、3-5 個段落、1000 字左右等..."
+                            placeholder="例如：120 秒產品影片腳本、400 字電商文案、三段式新品亮點介紹..."
                         >
                     </div>
                 </div>
 
                 <!-- 其他要求 (選填) -->
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2" for="additional">
-                        其他特殊要求 <span class="text-gray-400 font-normal">(選填)</span>
-                    </label>
+                <div class="form-section">
+                    <div class="section-header">
+                        <div>
+                            <p class="section-label">Step 8</p>
+                            <h2 class="section-title">其他特殊要求 <span class="text-gray-400 font-normal">(選填)</span></h2>
+                        </div>
+                        <span class="text-sm text-gray-500">像是禁用詞、語言切換、格式規則等</span>
+                    </div>
                     <textarea
                         id="additional"
                         name="additional"
                         rows="2"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="例如：需要包含特定關鍵字、避免使用某些詞彙、特定格式要求等..."
+                        placeholder="例如：務必提及 AI 協作晶片與 1.2kg 重量、避免比較競品、需附上規格表或電商連結..."
                     ></textarea>
                 </div>
 
