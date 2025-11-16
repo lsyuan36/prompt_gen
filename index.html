@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行銷 Prompt 生成器 | Marketing AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">🎯 行銷 Prompt 生成器</h1>
+            <p class="text-center mt-2 text-gray-100">輕鬆與 AI 溝通，創造完美行銷內容</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Instructions -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-lg">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-700">
+                        填寫以下表單，系統將自動生成專業的 Prompt，幫助您與 AI 工具（ChatGPT、Claude 等）更有效地溝通。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+            <form id="promptForm">
+                <!-- 行銷目標 -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-3">
+                        <span class="text-red-500">*</span> 行銷目標
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="content" class="peer sr-only" required>
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">✍️</div>
+                                <div class="font-medium">文案撰寫</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="social" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">📱</div>
+                                <div class="font-medium">社群媒體</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="ad" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">📢</div>
+                                <div class="font-medium">廣告創意</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="email" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">📧</div>
+                                <div class="font-medium">Email 行銷</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="seo" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">🔍</div>
+                                <div class="font-medium">SEO 內容</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="other" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="text-2xl mb-2">💡</div>
+                                <div class="font-medium">其他</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 產品/服務描述 -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="product">
+                        <span class="text-red-500">*</span> 產品/服務描述
+                    </label>
+                    <textarea
+                        id="product"
+                        name="product"
+                        rows="3"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="例如：一款幫助小型企業管理客戶關係的 SaaS 軟體，具有自動化跟進和數據分析功能..."
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- 目標受眾 -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="audience">
+                        <span class="text-red-500">*</span> 目標受眾
+                    </label>
+                    <input
+                        type="text"
+                        id="audience"
+                        name="audience"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="例如：25-40歲的中小企業主、創業者"
+                        required
+                    >
+                </div>
+
+                <!-- 語調風格 -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-3">
+                        語調風格
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="tone" value="professional" class="peer sr-only" checked>
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                                <div class="font-medium text-sm">專業正式</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="tone" value="friendly" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                                <div class="font-medium text-sm">親切友善</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="tone" value="creative" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                                <div class="font-medium text-sm">創意活潑</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="tone" value="urgent" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                                <div class="font-medium text-sm">緊迫感</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 內容長度 -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-3">
+                        內容長度
+                    </label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="length" value="short" class="peer sr-only" checked>
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                                <div class="font-medium">簡短</div>
+                                <div class="text-xs mt-1 opacity-75">50-100字</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="length" value="medium" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                                <div class="font-medium">中等</div>
+                                <div class="text-xs mt-1 opacity-75">200-300字</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="length" value="long" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                                <div class="font-medium">詳細</div>
+                                <div class="text-xs mt-1 opacity-75">500字以上</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 其他要求 (選填) -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" for="additional">
+                        其他特殊要求 <span class="text-gray-400 font-normal">(選填)</span>
+                    </label>
+                    <textarea
+                        id="additional"
+                        name="additional"
+                        rows="2"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="例如：需要包含特定關鍵字、避免使用某些詞彙、特定格式要求等..."
+                    ></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button
+                        type="submit"
+                        class="btn-gradient text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                        🚀 生成專業 Prompt
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="mt-8 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">✨ 生成的 Prompt</h2>
+                    <button
+                        id="copyBtn"
+                        class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        複製 Prompt
+                    </button>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <pre id="generatedPrompt" class="whitespace-pre-wrap text-gray-700 font-mono text-sm leading-relaxed"></pre>
+                </div>
+                <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                    <p class="text-sm text-yellow-800">
+                        💡 <strong>使用提示：</strong>將上方 Prompt 複製後，貼到 ChatGPT、Claude 或其他 AI 工具中即可使用。
+                    </p>
+                </div>
+                <div class="mt-4 text-center">
+                    <button
+                        id="resetBtn"
+                        class="text-gray-600 hover:text-gray-800 font-medium underline"
+                    >
+                        重新生成 Prompt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-300">© 2025 行銷 Prompt 生成器 | 讓 AI 成為您的行銷夥伴</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
