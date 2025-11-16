@@ -10,9 +10,9 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6',
-                        accent: '#ec4899'
+                        primary: '#3b82f6',
+                        secondary: '#60a5fa',
+                        accent: '#2563eb'
                     }
                 }
             }
@@ -24,20 +24,26 @@
             font-family: 'Noto Sans TC', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
         .card-hover {
             transition: all 0.3s ease;
         }
         .card-hover:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
         }
         .btn-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
         .btn-gradient:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        }
+        #customLengthInput {
+            display: none;
+        }
+        input[name="length"][value="custom"]:checked ~ #customLengthInput {
+            display: block;
         }
     </style>
 </head>
@@ -45,29 +51,12 @@
     <!-- Header -->
     <header class="gradient-bg text-white py-6 shadow-lg">
         <div class="container mx-auto px-4">
-            <h1 class="text-3xl md:text-4xl font-bold text-center">🎯 行銷 Prompt 生成器</h1>
-            <p class="text-center mt-2 text-gray-100">輕鬆與 AI 溝通，創造完美行銷內容</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-center">行銷 Prompt 生成器</h1>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 max-w-5xl">
-        <!-- Instructions -->
-        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-lg">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm text-blue-700">
-                        填寫以下表單，系統將自動生成專業的 Prompt，幫助您與 AI 工具（ChatGPT、Claude 等）更有效地溝通。
-                    </p>
-                </div>
-            </div>
-        </div>
-
+    <main class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Form -->
         <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
             <form id="promptForm">
@@ -76,49 +65,99 @@
                     <label class="block text-gray-700 font-semibold mb-3">
                         <span class="text-red-500">*</span> 行銷目標
                     </label>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="flex flex-wrap gap-2">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="content" class="peer sr-only" required>
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">✍️</div>
-                                <div class="font-medium">文案撰寫</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">文案撰寫</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="social" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">📱</div>
-                                <div class="font-medium">社群媒體</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">社群媒體</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="ad" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">📢</div>
-                                <div class="font-medium">廣告創意</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">廣告創意</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="email" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">📧</div>
-                                <div class="font-medium">Email 行銷</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">Email 行銷</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="seo" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">🔍</div>
-                                <div class="font-medium">SEO 內容</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">SEO 內容</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="blog" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">部落格文章</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="product" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">產品描述</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="landing" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">著陸頁</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="press" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">新聞稿</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="video" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">影片腳本</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="slogan" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">標語口號</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="goal" value="case" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">案例研究</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="goal" value="other" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-4 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
-                                <div class="text-2xl mb-2">💡</div>
-                                <div class="font-medium">其他</div>
+                            <div class="border-2 border-gray-200 rounded-lg px-4 py-2 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white whitespace-nowrap">
+                                <div class="font-medium text-sm">其他</div>
                             </div>
                         </label>
+                    </div>
+                    <!-- 目標描述 -->
+                    <div id="goalDescription" class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg hidden">
+                        <p class="text-sm text-blue-700"></p>
+                    </div>
+                    <!-- 其他目標自訂輸入 -->
+                    <div id="customGoalContainer" class="mt-3 hidden">
+                        <input
+                            type="text"
+                            id="customGoal"
+                            name="customGoal"
+                            class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="請描述您的行銷目標，例如：白皮書撰寫、簡報內容、活動文案等..."
+                        >
                     </div>
                 </div>
 
@@ -139,17 +178,105 @@
 
                 <!-- 目標受眾 -->
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2" for="audience">
-                        <span class="text-red-500">*</span> 目標受眾
+                    <label class="block text-gray-700 font-semibold mb-3">
+                        <span class="text-red-500">*</span> 目標受眾 <span class="text-gray-400 font-normal text-sm">(可複選)</span>
                     </label>
-                    <input
-                        type="text"
-                        id="audience"
-                        name="audience"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="例如：25-40歲的中小企業主、創業者"
-                        required
-                    >
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="young" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">年輕族群</div>
+                                <div class="text-xs text-gray-500 mt-1">18-30歲</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="middle" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">中壯年</div>
+                                <div class="text-xs text-gray-500 mt-1">31-50歲</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="senior" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">銀髮族</div>
+                                <div class="text-xs text-gray-500 mt-1">50歲以上</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="student" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">學生</div>
+                                <div class="text-xs text-gray-500 mt-1">大學/研究所</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="professional" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">上班族</div>
+                                <div class="text-xs text-gray-500 mt-1">一般職員</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="manager" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">主管/經理</div>
+                                <div class="text-xs text-gray-500 mt-1">中高階管理</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="entrepreneur" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">創業者</div>
+                                <div class="text-xs text-gray-500 mt-1">新創/老闆</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="homemaker" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">家庭主婦/夫</div>
+                                <div class="text-xs text-gray-500 mt-1">家庭照顧者</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="parent" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">父母</div>
+                                <div class="text-xs text-gray-500 mt-1">有子女家長</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="tech" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">科技愛好者</div>
+                                <div class="text-xs text-gray-500 mt-1">早期採用者</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="b2b" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">B2B 採購</div>
+                                <div class="text-xs text-gray-500 mt-1">企業決策者</div>
+                            </div>
+                        </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="checkbox" name="audience" value="custom" class="peer sr-only">
+                            <div class="border-2 border-gray-200 rounded-lg px-3 py-2 text-center peer-checked:border-primary peer-checked:bg-blue-50 peer-checked:text-primary transition-all">
+                                <div class="font-medium text-sm">其他</div>
+                                <div class="text-xs text-gray-500 mt-1">自訂</div>
+                            </div>
+                        </label>
+                    </div>
+                    <!-- 自訂受眾輸入 -->
+                    <div id="customAudienceContainer" class="mt-3 hidden">
+                        <input
+                            type="text"
+                            id="customAudience"
+                            name="customAudience"
+                            class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="請描述您的目標受眾，例如：對健身有興趣的女性、喜歡旅遊的退休人士等..."
+                        >
+                    </div>
                 </div>
 
                 <!-- 語調風格 -->
@@ -190,28 +317,44 @@
                     <label class="block text-gray-700 font-semibold mb-3">
                         內容長度
                     </label>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="length" value="short" class="peer sr-only" checked>
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
                                 <div class="font-medium">簡短</div>
                                 <div class="text-xs mt-1 opacity-75">50-100字</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="length" value="medium" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
                                 <div class="font-medium">中等</div>
                                 <div class="text-xs mt-1 opacity-75">200-300字</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="length" value="long" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
                                 <div class="font-medium">詳細</div>
                                 <div class="text-xs mt-1 opacity-75">500字以上</div>
                             </div>
                         </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="length" value="custom" class="peer sr-only" id="customLengthRadio">
+                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white">
+                                <div class="font-medium">自訂</div>
+                                <div class="text-xs mt-1 opacity-75">自行輸入</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="customLengthContainer" class="mt-3 hidden">
+                        <input
+                            type="text"
+                            id="customLength"
+                            name="customLength"
+                            class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="例如：約 150 字、3-5 個段落、1000 字左右等..."
+                        >
                     </div>
                 </div>
 
@@ -235,7 +378,7 @@
                         type="submit"
                         class="btn-gradient text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
-                        🚀 生成專業 Prompt
+                        生成精準 Prompt
                     </button>
                 </div>
             </form>
@@ -258,11 +401,6 @@
                 </div>
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
                     <pre id="generatedPrompt" class="whitespace-pre-wrap text-gray-700 font-mono text-sm leading-relaxed"></pre>
-                </div>
-                <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
-                    <p class="text-sm text-yellow-800">
-                        💡 <strong>使用提示：</strong>將上方 Prompt 複製後，貼到 ChatGPT、Claude 或其他 AI 工具中即可使用。
-                    </p>
                 </div>
                 <div class="mt-4 text-center">
                     <button
