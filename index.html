@@ -57,6 +57,13 @@
             align-items: center;
             gap: 0.4rem;
         }
+        .tone-card {
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         .card-hover {
             transition: all 0.3s ease;
         }
@@ -609,31 +616,47 @@
                         </div>
                         <span class="text-sm text-gray-500">先選擇主要語調，生成後再微調語氣即可</span>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="tone" value="professional" class="peer sr-only" checked>
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                            <div class="tone-card border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
                                 <div class="font-medium text-sm">專業正式</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="tone" value="friendly" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                            <div class="tone-card border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
                                 <div class="font-medium text-sm">親切友善</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="tone" value="creative" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                            <div class="tone-card border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
                                 <div class="font-medium text-sm">創意活潑</div>
                             </div>
                         </label>
                         <label class="card-hover cursor-pointer">
                             <input type="radio" name="tone" value="urgent" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                            <div class="tone-card border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
                                 <div class="font-medium text-sm">緊迫感</div>
                             </div>
                         </label>
+                        <label class="card-hover cursor-pointer">
+                            <input type="radio" name="tone" value="customTone" class="peer sr-only" id="customToneRadio">
+                            <div class="tone-card border-2 border-gray-200 rounded-lg p-3 text-center peer-checked:border-secondary peer-checked:bg-secondary peer-checked:text-white">
+                                <div class="font-medium text-sm">自訂語調</div>
+                                <div class="text-xs mt-1 opacity-75">輸入指定風格</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="customToneContainer" class="mt-3 hidden">
+                        <input
+                            type="text"
+                            id="customTone"
+                            name="customTone"
+                            class="w-full px-4 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            placeholder="例如：帶科技感但親切、加入電競術語、同時兼具專業與俏皮語氣..."
+                        >
                     </div>
                 </div>
 
@@ -711,7 +734,7 @@
                         type="submit"
                         class="btn-gradient text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
-                        生成精準 Prompt
+                        生成內容 Prompt
                     </button>
                 </div>
             </form>

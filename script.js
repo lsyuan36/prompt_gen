@@ -234,6 +234,9 @@ document.getElementById('promptForm').addEventListener('submit', function(e) {
         audienceOccupations: selectedOccupations,
         customOccupationInput: selectedOccupations.includes('customOccupation') ? document.getElementById('customOccupationInput').value.trim() : '',
         tone: document.querySelector('input[name="tone"]:checked').value,
+        customTone: document.querySelector('input[name="tone"]:checked').value === 'customTone'
+            ? document.getElementById('customTone').value.trim()
+            : '',
         length: lengthValue,
         customLength: lengthValue === 'custom' ? document.getElementById('customLength').value.trim() : '',
         additional: document.getElementById('additional').value.trim()
@@ -341,7 +344,11 @@ function generatePrompt(data) {
 
     // 7. 風格要求
     prompt += '【風格與語調】\n';
-    prompt += `請使用${toneDescriptions[data.tone]}。\n\n`;
+    if (data.tone === 'customTone' && data.customTone) {
+        prompt += `請使用自訂語調：「${data.customTone}」。\n\n`;
+    } else {
+        prompt += `請使用${toneDescriptions[data.tone]}。\n\n`;
+    }
 
     // 8. 內容長度
     prompt += '【內容長度】\n';
@@ -565,6 +572,19 @@ document.querySelectorAll('input[name="goal"]').forEach(radio => {
             document.getElementById('customGoal').focus();
         } else {
             customGoalContainer.classList.add('hidden');
+        }
+    });
+});
+
+// 自訂語調輸入控制
+document.querySelectorAll('input[name="tone"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const customToneContainer = document.getElementById('customToneContainer');
+        if (this.value === 'customTone') {
+            customToneContainer.classList.remove('hidden');
+            document.getElementById('customTone').focus();
+        } else {
+            customToneContainer.classList.add('hidden');
         }
     });
 });
